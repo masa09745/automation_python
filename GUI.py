@@ -7,11 +7,19 @@ import openpyxl as op
 
 
 def create():
-  wb = op.Workbook()
-  sheet = wb.active
-  wb.save('Ship Data.xlsx')
   shiptext_value=ship_text.get()
   echtext_value=ech_text.get()
+  
+  ShipData = op.Workbook()
+  sheet = ShipData.active
+  sheet.title='Ship Data'
+  sheet['A1'] = '機番'
+  sheet['B1'] = 'エチロン'
+  sheet['A2'] = shiptext_value
+  sheet['B2'] = echtext_value
+  ShipData.save('Ship Data.xlsx')
+  
+  
   messagebox.showinfo("完了", "完了しました")
 
 
