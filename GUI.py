@@ -3,24 +3,44 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as mb
 from tkinter import messagebox
 
+
 import openpyxl as op
+import docx as dx
+import glob
 
 
 def create():
   shiptext_value=ship_text.get()
   echtext_value=ech_text.get()
   
-  ShipData = op.Workbook()
-  sheet = ShipData.active
+  ship_data = op.Workbook()
+  sheet = ship_data.active
   sheet.title='Ship Data'
-  sheet['A1'] = '機番'
-  sheet['B1'] = 'エチロン'
+  sheet['A1'] = '[機番]'
+  sheet['B1'] = '[エチロン]'
   sheet['A2'] = shiptext_value
   sheet['B2'] = echtext_value
-  ShipData.save('Ship Data.xlsx')
+  ship_data.save('Ship Data.xlsx')
   
+  filepath = 'Ship Data.xlsx'
+  load_ship = op.load_workbook(filename=filepath)
+  load_data = load_ship['Ship Data']
   
+  values1 = [[cell.value for cell in row1] for row1 in load_data]
+  word_files = glob.glob('必要データ/*.docx')
+  select_file = ','.join(word_files)
+
+  for i in range(1, len(values1)):
+    doc = dx.Document(select_file)
+    dic = dict(zip(values1[0], values1[i]))
+    for key, value in dic.items():
+      for paragraph in doc.paragraphs:
+        paragraph.text = paragraph.text.replace(key, value)
+        doc.save("test.docx")
+
   messagebox.showinfo("完了", "完了しました")
+
+
 
 
 main_win = tk.Tk()
