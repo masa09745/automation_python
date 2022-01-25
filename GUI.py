@@ -27,6 +27,7 @@ def create():
   load_data = load_ship['Ship Data']
   
   values1 = [[cell.value for cell in row1] for row1 in load_data]
+
   word_files = glob.glob('必要データ/*.docx')
   select_file = ','.join(word_files)
 
@@ -36,7 +37,8 @@ def create():
     for key, value in dic.items():
       for paragraph in doc.paragraphs:
         paragraph.text = paragraph.text.replace(key, value)
-        doc.save("test.docx")
+
+    doc.save("test.docx")
 
   messagebox.showinfo("完了", "完了しました")
 
