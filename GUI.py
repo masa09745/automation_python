@@ -7,38 +7,37 @@ from tkinter import messagebox
 import openpyxl as op
 import docx as dx
 import glob
+import re
 
 
 def create():
   shiptext_value=ship_text.get()
   echtext_value=ech_text.get()
   
-  ship_data = op.Workbook()
-  sheet = ship_data.active
-  sheet.title='Ship Data'
-  sheet['A1'] = '[機番]'
-  sheet['B1'] = '[エチロン]'
-  sheet['A2'] = shiptext_value
-  sheet['B2'] = echtext_value
-  ship_data.save('Ship Data.xlsx')
+  ship_num = shiptext_value
+  ech_num = echtext_value
+
+  change_word = [
+    ['機番', ship_num],
+    ['エチロン', ech_num]
+  ]
   
-  filepath = 'Ship Data.xlsx'
-  load_ship = op.load_workbook(filename=filepath)
-  load_data = load_ship['Ship Data']
+  word_file = glob.glob('必要データ/*.docx')
+  select_file = ','.join(word_file)
+  doc = dx.Document(select_file)
   
-  values1 = [[cell.value for cell in row1] for row1 in load_data]
-
-  word_files = glob.glob('必要データ/*.docx')
-  select_file = ','.join(word_files)
-
-  for i in range(1, len(values1)):
-    doc = dx.Document(select_file)
-    dic = dict(zip(values1[0], values1[i]))
-    for key, value in dic.items():
-      for paragraph in doc.paragraphs:
-        paragraph.text = paragraph.text.replace(key, value)
-
-    doc.save("test.docx")
+  tbl = doc.tables[0]
+  
+  for row in tbl.rows:
+    values = []
+    for cell in row.cells:
+      values.append(cell.text)
+      for i in range(len(change_word)):
+        if re.search(change_word[i][0], cell.text):
+          before_text = cell.text
+      for i in range(len(change_word)):
+        cell.text = re.sub(change_word[i][0], change_word[i][1], cell.text)
+  doc.save('test.docx')
 
   messagebox.showinfo("完了", "完了しました")
 
