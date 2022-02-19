@@ -7,7 +7,6 @@ from tkinter import messagebox
 import openpyxl as op
 import docx as dx
 import glob
-import re
 
 
 def create():
@@ -25,20 +24,16 @@ def create():
   word_file = glob.glob('必要データ/*.docx')
   select_file = ','.join(word_file)
   doc = dx.Document(select_file)
-  
+
   tbl = doc.tables[0]
   
   for row in tbl.rows:
     values = []
     for cell in row.cells:
       values.append(cell.text)
-      for i in range(len(change_word)):
-        if re.search(change_word[i][0], cell.text):
-          before_text = cell.text
-      for i in range(len(change_word)):
-        cell.text = re.sub(change_word[i][0], change_word[i][1], cell.text)
-  doc.save('test.docx')
-
+      print(cell.text)
+  rename_file = f'{ship_num}_{ech_num}.docx'
+  doc.save(rename_file)
   messagebox.showinfo("完了", "完了しました")
 
 
