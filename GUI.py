@@ -10,6 +10,7 @@ import glob
 import re
 import os
 
+# 入力した機番、エチロンからフォルダの作成
 def makedirs():
   ship_input=ship_text.get()
   ech_input=ech_text.get()
@@ -17,6 +18,7 @@ def makedirs():
   new_dir_filepath = f'JA{ship_input}_{ech_input}'
   os.makedirs(new_dir_filepath)
   
+# ADV版の計画表から不要なシートの削除
 def del_sheet():
   ship_input=ship_text.get()
   ech_input=ech_text.get()
@@ -43,6 +45,7 @@ def del_sheet():
   filename = f'JA{ship_input}_{ech_input}/Job List.xlsx'
   joblist.save(filename)
   
+# Order ListのExcelファイル作成
 def mkfile():
   ship_input=ship_text.get()
   ech_input=ech_text.get()
@@ -65,6 +68,7 @@ def mkfile():
   filename = f'JA{ship_input}_{ech_input}/Order List.xlsx'
   orderlist.save(filename)
   
+# Job ListからOrder Numberを貼り付けて Order Listの作成
 def copy_order():
   ship_input=ship_text.get()
   ech_input=ech_text.get()  
@@ -94,6 +98,7 @@ def copy_order():
   filename = f'JA{ship_input}_{ech_input}/Order List.xlsx'
   orderlist.save(filename)
 
+# 作業アサインシートの原紙の作成
 def create():
   ship_input=ship_text.get()
   ech_input=ech_text.get()
@@ -117,17 +122,18 @@ def create():
   rename_file = f'JA{ship_input}_{ech_input}/JA{ship_input}_{ech_input}.docx'
   doc.save(rename_file)
 
+# 作業アサインシートへのOrder Numberの貼り付け
 def paste():
   ship_input=ship_text.get()
   ech_input=ech_text.get()
-  
+
   new_dir_filepath = 'RTN'
   os.makedirs(f'JA{ship_input}_{ech_input}/{new_dir_filepath}')
 
   orderlist = op.load_workbook('Order List.xlsx')
   ws1 = orderlist['RTN']
   value1 = [[cell.value for cell in row1] for row1 in ws1]
-    
+
   for i in range(1, len(value1)):
     dic = dict(zip(value1[0], value1[i]))
 
@@ -145,6 +151,7 @@ def paste():
         word_newFilePath = f'JA{ship_input}_{ech_input}/{new_dir_filepath}/{i}_{value1[i][0]}.docx'
         doc.save(word_newFilePath)
 
+# 作成ボタンクリック時の挙動
 def click():
   makedirs()
   del_sheet()
@@ -154,6 +161,8 @@ def click():
   paste()
   messagebox.showinfo("完了", "完了しました")
 
+
+# GUIのレイアウトコード
 main_win = tk.Tk()
 main_win.geometry('300x200')
 main_win.title('作業アサインシート一括印刷')
