@@ -1,4 +1,4 @@
-#import win32api
+import win32api
 import sys
 import os
 import time
@@ -7,6 +7,11 @@ from natsort import natsorted
 
 import tkinter as tk
 import tkinter.filedialog
+
+def auto_print(path):
+  win32api.shellExcute(0, "print", path, None, ".", 0)
+  print ("Printed:" + path)
+  
 
 def filepath():
   dir = os.getcwd()
@@ -17,8 +22,10 @@ def filepath():
   files = glob.glob(os.path.join(target_dir, '*.docx'))
   sort_list = natsorted(files)
   for filepath in sort_list:
-    print (filepath)
+    auto_print(filepath)
+    time.sleep(3)
     
 
 filepath ()
+auto_print()
 
