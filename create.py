@@ -47,25 +47,36 @@ def create():
     job_EV = new_joblist['EV']
     
     orderlist = op.Workbook()
-    count = 2
+    count = 3
 
     for i in range(1,count+1):
       sheet = orderlist.create_sheet()
       
     order_RTN = orderlist["Sheet"]
     order_RTN.title = "RTN"
-    order_COA = orderlist["Sheet1"]
+    order_REQ = orderlist["Sheet1"]
+    order_REQ.title = "REQ JOB"
+    order_COA = orderlist["Sheet2"]
     order_COA.title = "COA"
-    order_EV = orderlist["Sheet2"]
+    order_EV = orderlist["Sheet3"]
     order_EV.title = "EV"
     
     for i in range(3, job_RTN.max_row + 1):
-      order1 = job_RTN.cell(row = i, column = 3).value
-      order_RTN.cell(row = i-2, column = 1, value = order1)
-      order2 = job_COA.cell(row = i, column = 3).value
-      order_COA.cell(row = i-2, column = 1, value = order2)
-      order3 = job_EV.cell(row = i, column = 3).value
-      order_EV.cell(row = i-2, column = 1, value = order3)
+      if job_RTN.cell(row = i, column = 2).value == 'REQUEST JOB CARD':
+        order1 = [job_RTN.cell(row = i, column = 3).value]
+        order_REQ.cell(row = 1, column = 1, value = "Order")
+        order_REQ.append(order1)
+      else:
+        order2 = [job_RTN.cell(row = i, column = 3).value]
+        order_RTN.append(order2)
+
+    for i in range(3, job_COA.max_row + 1):
+      order3 = [job_COA.cell(row = i, column = 3).value]
+      order_COA.append(order3)
+
+    for i in range(3, job_EV.max_row + 1):
+      order4 = [job_EV.cell(row = i, column = 3).value]
+      order_EV.append(order4)
     
     filename = f'{new_dir_filepath}/Order List.xlsx'
     orderlist.save(filename)
@@ -154,7 +165,6 @@ def create():
 
     for y in range(1, len(value3)):
       dic = dict(zip(value3[0], value3[y]))
-      print (dic)
       doc = dx.Document(word_file)
       tbl = doc.tables[0]
       target = tbl.rows[2]
@@ -204,25 +214,36 @@ def create():
     job_EV = new_joblist['EV']
     
     orderlist = op.Workbook()
-    count = 2
+    count = 3
 
     for i in range(1,count+1):
       sheet = orderlist.create_sheet()
       
     order_RTN = orderlist["Sheet"]
     order_RTN.title = "RTN"
-    order_COA = orderlist["Sheet1"]
+    order_REQ = orderlist["Sheet1"]
+    order_REQ.title = "REQ JOB"
+    order_COA = orderlist["Sheet2"]
     order_COA.title = "COA"
-    order_EV = orderlist["Sheet2"]
+    order_EV = orderlist["Sheet3"]
     order_EV.title = "EV"
     
     for i in range(3, job_RTN.max_row + 1):
-      order1 = job_RTN.cell(row = i, column = 3).value
-      order_RTN.cell(row = i-2, column = 1, value = order1)
-      order2 = job_COA.cell(row = i, column = 3).value
-      order_COA.cell(row = i-2, column = 1, value = order2)
-      order3 = job_EV.cell(row = i, column = 3).value
-      order_EV.cell(row = i-2, column = 1, value = order3)
+      if job_RTN.cell(row = i, column = 2).value == 'REQUEST JOB CARD':
+        order1 = [job_RTN.cell(row = i, column = 3).value]
+        order_REQ.cell(row = 1, column = 1, value = "Order")
+        order_REQ.append(order1)
+      else:
+        order2 = [job_RTN.cell(row = i, column = 3).value]
+        order_RTN.append(order2)
+
+    for i in range(3, job_COA.max_row + 1):
+      order3 = [job_COA.cell(row = i, column = 3).value]
+      order_COA.append(order3)
+
+    for i in range(3, job_EV.max_row + 1):
+      order4 = [job_EV.cell(row = i, column = 3).value]
+      order_EV.append(order4)
     
     filename = f'{new_dir_filepath}/Order List.xlsx'
     orderlist.save(filename)
@@ -247,6 +268,7 @@ def create():
 
 
     os.makedirs(f'{new_dir_filepath}/RTN')
+    os.makedirs(f'{new_dir_filepath}/REQ JOB')
     os.makedirs(f'{new_dir_filepath}/COA')
     os.makedirs(f'{new_dir_filepath}/EV')
     
@@ -254,14 +276,17 @@ def create():
     
     ws1 = orderlist['RTN']
     value1 = [[cell.value for cell in row1] for row1 in ws1]
-    ws2 = orderlist['COA']
+    ws2 = orderlist['REQ JOB']
     value2 = [[cell.value for cell in row1] for row1 in ws2]
-    ws3 = orderlist['EV']
+    ws3 = orderlist['COA']
     value3 = [[cell.value for cell in row1] for row1 in ws3]
+    ws4 = orderlist['EV']
+    value4 = [[cell.value for cell in row1] for row1 in ws4]
 
     change_icon1 = [ ['①', '■'], ['②', '□'], ['③', '□'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
-    change_icon2 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
-    change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
+    change_icon2 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '□'], ['⑤', '■'], ['⑥', '□'],]
+    change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
+    change_icon4 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
     
     word_file = ','.join(glob.glob(dir2 + '/data/作業アサインシート.docx'))
 
@@ -306,12 +331,11 @@ def create():
             run.text = re.sub(change_icon2[x][0], change_icon2[x][1], run.text)
           for key, value in dic.items():
             run.text = run.text.replace(key, str(value))
-          word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value2[y][0]}.docx'
+          word_newFilePath = f'{new_dir_filepath}/REQ JOB/{y}_{value2[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value3)):
       dic = dict(zip(value3[0], value3[y]))
-      print (dic)
       doc = dx.Document(word_file)
       tbl = doc.tables[0]
       target = tbl.rows[2]
@@ -329,7 +353,29 @@ def create():
             run.text = re.sub(change_icon3[x][0], change_icon3[x][1], run.text)
           for key, value in dic.items():
             run.text = run.text.replace(key, str(value))
-          word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value3[y][0]}.docx'
+          word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value3[y][0]}.docx'
+          doc.save(word_newFilePath)
+
+    for y in range(1, len(value4)):
+      dic = dict(zip(value4[0], value4[y]))
+      doc = dx.Document(word_file)
+      tbl = doc.tables[0]
+      target = tbl.rows[2]
+      for cell in target.cells:
+        cell_para = cell.paragraphs[0]
+        for run in cell_para.runs:
+          for i in range(len(change_word)):
+            run.text = re.sub(change_word[i][0], change_word[i][1], run.text)
+
+      target = tbl.rows[3]
+      for cell in target.cells:
+        cell_para = cell.paragraphs[0]
+        for run in cell_para.runs:
+          for x in range(len(change_icon4)):
+            run.text = re.sub(change_icon4[x][0], change_icon4[x][1], run.text)
+          for key, value in dic.items():
+            run.text = run.text.replace(key, str(value))
+          word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value4[y][0]}.docx'
           doc.save(word_newFilePath)
 
 
