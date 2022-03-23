@@ -338,6 +338,9 @@ def create():
 def click():
   create()
   messagebox.showinfo("完了", "完了しました")
+  
+def close():
+  main_win.destroy()
 
 
 
@@ -358,14 +361,16 @@ ech_text = tk.StringVar()
 echtext_entry = tk.Entry(main_frame, textvariable=ech_text)
 
 create_btn = tk.Button(main_frame, text="作成", command=click)
+close_btn = tk.Button(main_frame, text="閉じる", command=close)
 
 ship_label.grid(column=0, row=0, sticky=tk.W)
 shiptext_entry.grid(column=0, row=1, pady=5, sticky=tk.EW)
 
-ech_label.grid(column=0, row=3, sticky=tk.W)
-echtext_entry.grid(column=0, row=4, pady=5, sticky=tk.EW)
+ech_label.grid(column=0, row=2, sticky=tk.W)
+echtext_entry.grid(column=0, row=3, pady=5, sticky=tk.EW)
 
-create_btn.grid(column=0, row=5, pady=15)
+create_btn.grid(column=0, row=4, sticky=tk.W, pady=10)
+close_btn.grid(column=0, row=4, sticky=tk.E, pady=10)
 
 main_win.columnconfigure(0, weight=1)
 main_win.rowconfigure(0, weight=1)
