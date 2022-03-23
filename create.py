@@ -98,9 +98,8 @@ def create():
           run.text = re.sub(change_word[i][0], change_word[i][1], run.text)
     rename_file = f'{new_dir_filepath}/JA{ship_input}_{ech_input}.docx'
     doc.save(rename_file)
-
-
     os.makedirs(f'{new_dir_filepath}/RTN')
+    os.makedirs(f'{new_dir_filepath}/REQ JOB')
     os.makedirs(f'{new_dir_filepath}/COA')
     os.makedirs(f'{new_dir_filepath}/EV')
     
@@ -108,16 +107,19 @@ def create():
     
     ws1 = orderlist['RTN']
     value1 = [[cell.value for cell in row1] for row1 in ws1]
-    ws2 = orderlist['COA']
+    ws2 = orderlist['REQ JOB']
     value2 = [[cell.value for cell in row1] for row1 in ws2]
-    ws3 = orderlist['EV']
+    ws3 = orderlist['COA']
     value3 = [[cell.value for cell in row1] for row1 in ws3]
+    ws4 = orderlist['EV']
+    value4 = [[cell.value for cell in row1] for row1 in ws4]
 
     change_icon1 = [ ['①', '■'], ['②', '□'], ['③', '□'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
-    change_icon2 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
-    change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
+    change_icon2 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '□'], ['⑤', '■'], ['⑥', '□'],]
+    change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
+    change_icon4 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
     
-    word_file = ','.join(glob.glob(dir1 + '/data/作業アサインシート.docx'))
+    word_file = ','.join(glob.glob(dir2 + '/data/作業アサインシート.docx'))
 
     for y in range(1, len(value1)):
       dic = dict(zip(value1[0], value1[y]))
@@ -160,7 +162,7 @@ def create():
             run.text = re.sub(change_icon2[x][0], change_icon2[x][1], run.text)
           for key, value in dic.items():
             run.text = run.text.replace(key, str(value))
-          word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value2[y][0]}.docx'
+          word_newFilePath = f'{new_dir_filepath}/REQ JOB/{y}_{value2[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value3)):
@@ -182,9 +184,31 @@ def create():
             run.text = re.sub(change_icon3[x][0], change_icon3[x][1], run.text)
           for key, value in dic.items():
             run.text = run.text.replace(key, str(value))
-          word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value3[y][0]}.docx'
+          word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value3[y][0]}.docx'
           doc.save(word_newFilePath)
-    
+
+    for y in range(1, len(value4)):
+      dic = dict(zip(value4[0], value4[y]))
+      doc = dx.Document(word_file)
+      tbl = doc.tables[0]
+      target = tbl.rows[2]
+      for cell in target.cells:
+        cell_para = cell.paragraphs[0]
+        for run in cell_para.runs:
+          for i in range(len(change_word)):
+            run.text = re.sub(change_word[i][0], change_word[i][1], run.text)
+
+      target = tbl.rows[3]
+      for cell in target.cells:
+        cell_para = cell.paragraphs[0]
+        for run in cell_para.runs:
+          for x in range(len(change_icon4)):
+            run.text = re.sub(change_icon4[x][0], change_icon4[x][1], run.text)
+          for key, value in dic.items():
+            run.text = run.text.replace(key, str(value))
+          word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value4[y][0]}.docx'
+          doc.save(word_newFilePath)
+
   else:
     dir2 = os.getcwd()
     new_dir_filepath = dir2 + f'/JA{ship_input}_{ech_input}'
