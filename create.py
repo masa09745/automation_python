@@ -119,7 +119,7 @@ def create():
     change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
     change_icon4 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
     
-    word_file = ','.join(glob.glob(dir2 + '/data/作業アサインシート.docx'))
+    word_file = ','.join(glob.glob(dir1 + '/data/作業アサインシート.docx'))
 
     for y in range(1, len(value1)):
       dic = dict(zip(value1[0], value1[y]))
@@ -213,7 +213,7 @@ def create():
     dir2 = os.getcwd()
     new_dir_filepath = dir2 + f'/JA{ship_input}_{ech_input}'
     os.makedirs(new_dir_filepath)
-    select_file = ','.join(glob.glob(dir2 + '/Data/*.xlsx'))
+    select_file = ','.join(glob.glob(dir2 + '/Data/*(ADV)*.xlsx'))
     joblist = op.load_workbook(select_file)
     worksheets = joblist.sheetnames
     needsheets = ['RTN', 'COA', 'EV']
@@ -315,8 +315,17 @@ def create():
     word_file = ','.join(glob.glob(dir2 + '/data/作業アサインシート.docx'))
 
     for y in range(1, len(value1)):
-      dic = dict(zip(value1[0], value1[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value1[0], value1[y]))
+      
       doc = dx.Document(word_file)
+      
+        
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -331,10 +340,11 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon1)):
             run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/RTN/{y}_{value1[y][0]}.docx'
           doc.save(word_newFilePath)
+
 
     for y in range(1, len(value2)):
       dic = dict(zip(value2[0], value2[y]))

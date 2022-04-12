@@ -1,0 +1,3 @@
+([('create',
+   '/Users/masa/projects/automation_python/dist/create',
+   'EXECUTABLE')],)
