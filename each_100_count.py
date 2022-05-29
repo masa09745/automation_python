@@ -95,48 +95,54 @@ def create():
   change_icon1 = [ ['①', '■'], ['②', '□'], ['③', '□'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
   
   word_file = ','.join(glob.glob(dir + '/data/作業アサインシート.docx'))
-
-  sum =len(value1)/100
-  test = math.ceil(sum)
-  print(test)
-  for a in range(test):
-    b = a+1
-    os.makedirs(f'{new_dir_filepath}/RTN_{b}')
   
-  os.makedirs(f'{new_dir_filepath}/RTN(1-100)')
-  
+  os.makedirs(f'{new_dir_filepath}/RTN')
+                       
   for y in range(1, len(value1)):
-    if y <= 100:
+    
+    dic1 = dict(Index = str(y))
+    dic2 = dict(zip(value1[0], value1[y]))
+    doc = dx.Document(word_file)
+    
       
-      dic1 = dict(Index = str(y))
-      dic2 = dict(zip(value1[0], value1[y]))
-      doc = dx.Document(word_file)
-      
-        
-      for sec in doc.sections:
-        for para in sec.header.paragraphs:
-          for key,value in dic1.items():
-            para.text = para.text.replace(key, str(value))
+    for sec in doc.sections:
+      for para in sec.header.paragraphs:
+        for key,value in dic1.items():
+          para.text = para.text.replace(key, str(value))
 
-      tbl = doc.tables[0]
-      target = tbl.rows[2]
-      for cell in target.cells:
-        cell_para = cell.paragraphs[0]
-        for run in cell_para.runs:
-          for i in range(len(change_word)):
-            run.text = re.sub(change_word[i][0], change_word[i][1], run.text)
+    tbl = doc.tables[0]
+    target = tbl.rows[2]
+    for cell in target.cells:
+      cell_para = cell.paragraphs[0]
+      for run in cell_para.runs:
+        for i in range(len(change_word)):
+          run.text = re.sub(change_word[i][0], change_word[i][1], run.text)
 
-      target = tbl.rows[3]
-      for cell in target.cells:
-        cell_para = cell.paragraphs[0]
-        for run in cell_para.runs:
-          for x in range(len(change_icon1)):
-            run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
-          for key, value in dic2.items():
-            run.text = run.text.replace(key, str(value))
-      word_newFilePath = f'{new_dir_filepath}/RTN(1-100)/{y}_{value1[y][0]}.docx'
-      doc.save(word_newFilePath)
+    target = tbl.rows[3]
+    for cell in target.cells:
+      cell_para = cell.paragraphs[0]
+      for run in cell_para.runs:
+        for x in range(len(change_icon1)):
+          run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
+        for key, value in dic2.items():
+          run.text = run.text.replace(key, str(value))
+    word_newFilePath = f'{new_dir_filepath}/RTN/{y}_{value1[y][0]}.docx'
+    doc.save(word_newFilePath)
+
+  dir1 = f'{new_dir_filepath}/RTN'
+  count_file = 0
   
+  for file_name in os.listdir(dir1):
+    file_path = os.path.join(dir1, file_name)
+    if os.path.isfile(file_path):
+      count_file += 1
+  print(count_file)
+  
+  test = math.ceil(count_file/100)
+  for i in range(test):
+    i = i+1
+    os.makedirs(f'{new_dir_filepath}/RTN_{i}')
+
 def click():
   create()
   messagebox.showinfo("完了", "完了しました")

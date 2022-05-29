@@ -120,10 +120,18 @@ def create():
     change_icon4 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
     
     word_file = ','.join(glob.glob(dir1 + '/data/作業アサインシート.docx'))
-
+    
     for y in range(1, len(value1)):
-      dic = dict(zip(value1[0], value1[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value1[0], value1[y]))
+      
       doc = dx.Document(word_file)
+
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -138,14 +146,22 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon1)):
             run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/RTN/{y}_{value1[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value2)):
-      dic = dict(zip(value2[0], value2[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value2[0], value2[y]))
+
       doc = dx.Document(word_file)
+      
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -160,14 +176,22 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon2)):
             run.text = re.sub(change_icon2[x][0], change_icon2[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/REQ JOB/{y}_{value2[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value3)):
-      dic = dict(zip(value3[0], value3[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value3[0], value3[y]))
+
       doc = dx.Document(word_file)
+      
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -182,14 +206,22 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon3)):
             run.text = re.sub(change_icon3[x][0], change_icon3[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value3[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value4)):
-      dic = dict(zip(value4[0], value4[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value4[0], value4[y]))
+
       doc = dx.Document(word_file)
+      
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+            
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -204,7 +236,7 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon4)):
             run.text = re.sub(change_icon4[x][0], change_icon4[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value4[y][0]}.docx'
           doc.save(word_newFilePath)
@@ -320,7 +352,6 @@ def create():
       
       doc = dx.Document(word_file)
       
-        
       for sec in doc.sections:
         for para in sec.header.paragraphs:
           for key,value in dic1.items():
@@ -347,8 +378,16 @@ def create():
 
 
     for y in range(1, len(value2)):
-      dic = dict(zip(value2[0], value2[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value2[0], value2[y]))
+
       doc = dx.Document(word_file)
+
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -363,14 +402,22 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon2)):
             run.text = re.sub(change_icon2[x][0], change_icon2[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/REQ JOB/{y}_{value2[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value3)):
-      dic = dict(zip(value3[0], value3[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value3[0], value3[y]))
+
       doc = dx.Document(word_file)
+
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -385,14 +432,22 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon3)):
             run.text = re.sub(change_icon3[x][0], change_icon3[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/COA/{y}_{value3[y][0]}.docx'
           doc.save(word_newFilePath)
 
     for y in range(1, len(value4)):
-      dic = dict(zip(value4[0], value4[y]))
+      dic1 = dict(Index = str(y))
+      dic2 = dict(zip(value4[0], value4[y]))
+      
       doc = dx.Document(word_file)
+      
+      for sec in doc.sections:
+        for para in sec.header.paragraphs:
+          for key,value in dic1.items():
+            para.text = para.text.replace(key, str(value))
+
       tbl = doc.tables[0]
       target = tbl.rows[2]
       for cell in target.cells:
@@ -407,7 +462,7 @@ def create():
         for run in cell_para.runs:
           for x in range(len(change_icon4)):
             run.text = re.sub(change_icon4[x][0], change_icon4[x][1], run.text)
-          for key, value in dic.items():
+          for key, value in dic2.items():
             run.text = run.text.replace(key, str(value))
           word_newFilePath = f'{new_dir_filepath}/EV/{y}_{value4[y][0]}.docx'
           doc.save(word_newFilePath)
