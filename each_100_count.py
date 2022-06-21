@@ -96,15 +96,19 @@ def create():
   
   word_file = ','.join(glob.glob(dir + '/data/作業アサインシート.docx'))
   
-  os.makedirs(f'{new_dir_filepath}/RTN')
-                       
+
+  test = math.ceil((len(value1)-1)/100)
+  for i in range(test):
+    i = i+1
+    os.makedirs(f'{new_dir_filepath}/RTN_{i}')
+
+  
   for y in range(1, len(value1)):
     
     dic1 = dict(Index = str(y))
     dic2 = dict(zip(value1[0], value1[y]))
     doc = dx.Document(word_file)
-    
-      
+
     for sec in doc.sections:
       for para in sec.header.paragraphs:
         for key,value in dic1.items():
@@ -126,22 +130,38 @@ def create():
           run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
         for key, value in dic2.items():
           run.text = run.text.replace(key, str(value))
-    word_newFilePath = f'{new_dir_filepath}/RTN/{y}_{value1[y][0]}.docx'
-    doc.save(word_newFilePath)
+    if y <=100 :
+      word_newFilePath = f'{new_dir_filepath}/RTN_1/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 101<=y<=200  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_2/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 201<=y<=300  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_3/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 301<=y<=400  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_4/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 401<=y<=500  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_5/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 501<=y<=600  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_6/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 601<=y<=700  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_7/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 701<=y<=800  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_8/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif 801<=y<=900  :
+      word_newFilePath = f'{new_dir_filepath}/RTN_9/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    else :
+      word_newFilePath = f'{new_dir_filepath}/RTN_10/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
 
-  dir1 = f'{new_dir_filepath}/RTN'
-  count_file = 0
-  
-  for file_name in os.listdir(dir1):
-    file_path = os.path.join(dir1, file_name)
-    if os.path.isfile(file_path):
-      count_file += 1
-  print(count_file)
-  
-  test = math.ceil(count_file/100)
-  for i in range(test):
-    i = i+1
-    os.makedirs(f'{new_dir_filepath}/RTN_{i}')
+
 
 def click():
   create()
