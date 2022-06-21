@@ -10,6 +10,8 @@ import openpyxl as op
 import docx as dx
 import sys
 import re
+import math
+
 
 def create():
   ship_input=ship_text.get()
@@ -89,7 +91,6 @@ def create():
   change_icon3 = [ ['①', '□'], ['②', '□'], ['③', '■'], ['④', '□'], ['⑤', '□'], ['⑥', '□'],]
   change_icon4 = [ ['①', '□'], ['②', '□'], ['③', '□'], ['④', '■'], ['⑤', '□'], ['⑥', '□'],]
 
-  os.makedirs(f'{new_dir_filepath}/RTN')
   os.makedirs(f'{new_dir_filepath}/REQ JOB')
   os.makedirs(f'{new_dir_filepath}/COA')
   os.makedirs(f'{new_dir_filepath}/EV')
@@ -121,6 +122,15 @@ def create():
 
   word_file = ','.join(glob.glob(data_dir + '/作業アサインシート.docx'))
 
+  dir_count = math.ceil((len(value1)-1)/100)
+
+  for i in range(dir_count):
+    i=i+1
+    if i==dir_count:
+      os.makedirs(f'{new_dir_filepath}/RTN_{len(value1)-1}まで')
+    else:
+      os.makedirs(f'{new_dir_filepath}/RTN_{i*100}まで')
+
   for y in range(1, len(value1)):
     dic1 = dict(Index = str(y))
     dic2 = dict(zip(value1[0], value1[y]))
@@ -147,8 +157,15 @@ def create():
           run.text = re.sub(change_icon1[x][0], change_icon1[x][1], run.text)
         for key, value in dic2.items():
           run.text = run.text.replace(key, str(value))
-        word_newFilePath = f'{new_dir_filepath}/RTN/{y}_{value1[y][0]}.docx'
-        doc.save(word_newFilePath)
+
+    if dir_count*100-100 < y <= dir_count*100:
+      word_newFilePath = f'{new_dir_filepath}/RTN_{len(value1)-1}まで/{y}_{value1[y][0]}.docx'
+      doc.save(word_newFilePath)
+    elif y <= dir_count*100-100:
+      for i in range(dir_count-1):
+        if (i+1)*100-99 <= y <= (i+1)*100:
+          word_newFilePath = f'{new_dir_filepath}/RTN_{(i+1)*100}まで/{y}_{value1[y][0]}.docx'
+          doc.save(word_newFilePath)
 
   for y in range(1, len(value2)):
     dic1 = dict(Index = str(y))
