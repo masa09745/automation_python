@@ -29,12 +29,21 @@ def lead_excel():
   for i in range(ws.max_row, 3, -1):
     if ws.cell(row = i, column = 3).value == 'XLD':
       ws.delete_rows(i)
+    if ws.cell(row = i, column = 1).value == None:
+      ws.delete_rows(i)
   filename = f'{new_dir_filepath}/{val}.xlsx'
   wb.save(filename)
   
   rev_list = op.load_workbook(f'{new_dir_filepath}/{val}.xlsx')
   word_file = ','.join(glob.glob(dir + 'data/作業アサインシート.docx'))
-
+  
+  rev_data = rev_list['RN']
+  
+  for i in range(4, rev_data.max_row + 1):
+    value1 = rev_data.cell(row = i, column = 1).value
+    dic1 = dict(Index= value1)
+    print(dic1)
+    
 def click():
   lead_excel()
   messagebox.showinfo("完了", "完了しました")
