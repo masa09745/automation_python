@@ -16,7 +16,7 @@ def create_rev():
   ech_input = ech_text.get()
 
   if getattr(sys, "frozen", False):
-    os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(sys.executable))))
+    os.chdir(os.path.dirname(os.path.abspath(sys.executable)))
     data_dir = os.path.join(os.path.dirname(sys.executable), "Data")
     dir = os.getcwd()
   else:
